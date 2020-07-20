@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/menu_formulario_nota_salva_item"
+        android:title="Salva Nota"
+        android:icon="@drawable/ic_action_salva"
+        app:showAsAction="always"/>
+
+
+
+</menu>
