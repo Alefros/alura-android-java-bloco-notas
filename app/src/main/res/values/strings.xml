@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">Ceep</string>
     <string name="messageErrorChangeNote">Ocorreu um erro ao alterar a nota</string>
+    <string name="titulo_appbar">Notas</string>
+    <string name="titulo_insere_nota">Insere Nota</string>
+    <string name="titulo_altera_nota">Altera Nota</string>
 </resources>

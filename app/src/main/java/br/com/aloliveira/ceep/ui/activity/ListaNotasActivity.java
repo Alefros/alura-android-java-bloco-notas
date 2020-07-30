@@ -9,6 +9,7 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
@@ -18,6 +19,7 @@ import br.com.aloliveira.ceep.dao.NotaDAO;
 import br.com.aloliveira.ceep.model.Nota;
 import br.com.aloliveira.ceep.ui.recyclerview.adapter.ListaNotasAdapter;
 import br.com.aloliveira.ceep.ui.recyclerview.adapter.listener.OnItemClickListener;
+import br.com.aloliveira.ceep.ui.recyclerview.helper.callback.NotaItemTouchHelperCallback;
 
 import static br.com.aloliveira.ceep.ui.activity.ListaNotasConstantes.CHAVE_NOTA;
 import static br.com.aloliveira.ceep.ui.activity.ListaNotasConstantes.CHAVE_POSICAO;
@@ -33,6 +35,9 @@ public class ListaNotasActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lista_notas);
+
+        setTitle(getString(R.string.titulo_appbar));
+
         List<Nota> notas = carregaTodasNotas();
         configuraRecyclerView(notas);
         chamaFormularioNota();
@@ -90,7 +95,7 @@ public class ListaNotasActivity extends AppCompatActivity {
     }
 
     private boolean temNota(@Nullable Intent data) {
-        return data.hasExtra(CHAVE_NOTA);
+        return data != null && data.hasExtra(CHAVE_NOTA);
     }
 
     private boolean resultadoOk(int resultCode) {
@@ -119,6 +124,13 @@ public class ListaNotasActivity extends AppCompatActivity {
     private void configuraRecyclerView(List<Nota> notas) {
         RecyclerView listaNotas = findViewById(R.id.lista_notas_recyclerview);
         configuraAdapter(listaNotas, notas);
+        configuraItemTouchHelper(listaNotas);
+    }
+
+    private void configuraItemTouchHelper(RecyclerView listaNotas) {
+        ItemTouchHelper itemTouchHelper =
+                new ItemTouchHelper(new NotaItemTouchHelperCallback(adapter));
+        itemTouchHelper.attachToRecyclerView(listaNotas);
     }
 
     private void configuraAdapter(RecyclerView listaNotas, List<Nota> notas) {
@@ -141,11 +153,6 @@ public class ListaNotasActivity extends AppCompatActivity {
 
     private List<Nota> carregaTodasNotas() {
         NotaDAO notaDAO = new NotaDAO();
-
-        for (int i = 1; i < 11; i++) {
-            notaDAO.insere(new Nota("Titulo " + i,
-                    "Descriçao " + i));
-        }
 
         return notaDAO.todos();
     }
